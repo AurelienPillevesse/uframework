@@ -130,4 +130,12 @@ class App
     {
         $this->routes[] = new Route($method, $pattern, $callable);
     }
+
+    public function redirect($to, $statusCode = 302)
+    {
+        http_response_code($statusCode);
+        header(sprintf('Location: %s', $to));
+
+        exit;
+    }
 }

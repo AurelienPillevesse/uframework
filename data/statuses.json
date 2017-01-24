@@ -1,12 +1,1 @@
-[
-	{
-		"id": 1,
-    	"user": "Aureelio",
-    	"content": "bonjour1"
-	},
-	{
-		"id": 2,
-    	"user": "Aureelio",
-    	"content": "bonjour2"
-	}
-]
+{"2":{"id":3,"user":"a","content":"a"}}

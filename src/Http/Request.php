@@ -4,7 +4,7 @@ namespace Http;
 
 class Request
 {
-	const GET    = 'GET';
+    const GET    = 'GET';
 
     const POST   = 'POST';
 
@@ -15,29 +15,33 @@ class Request
     private $parameters;
 
     public function __construct(array $query = array(), array $request = array()) {
-    	$this->parameters = array_merge($query, $request);
+        $this->parameters = array_merge($query, $request);
     }
 
     public function getParameter($name, $default = null)
-	{
-
-	}
+    {
+        return $this->parameters[$name];
+    }
 
     public function getMethod() {
-    	return isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : self::GET;
+        $method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : self::GET;
+        if (self::POST === $method) {
+            return $this->getParameter('_method', $method);
+        }
+        return $method;
     }
 
     public function getUri() {
-    	$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+        $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
 
-    	if ($pos = strpos($uri, '?')) {
-		    $uri = substr($uri, 0, $pos);
-		}
-		
-    	return $uri;
+        if ($pos = strpos($uri, '?')) {
+            $uri = substr($uri, 0, $pos);
+        }
+        
+        return $uri;
     }
 
     public static function createFromGlobals() {
-    	return new self($_GET, $_POST);
+        return new self($_GET, $_POST);
     }
 }

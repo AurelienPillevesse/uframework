@@ -34,8 +34,34 @@ class JsonFinder implements FinderInterface
         throw new HttpException(404, 'Status not found');
     }
 
-    public function addOne($id) {
-        //todo this method
+    public function addOne($username, $message) {
+        $statuses = $this->readJsonFile();
+        $counter = count($statuses);
+
+        $status['id'] = ++$counter;
+        $status['user'] = $username;
+        $status['content'] = $message;
+        $statuses[] = $status;
+
+        file_put_contents($this->file, json_encode($statuses));
+    }
+
+    public function deleteOneById($id) {
+        $found = false;
+        $statuses = $this->readJsonFile();
+
+        foreach ($statuses as $index => $status) {
+            if($status['id'] == $id) {
+                $found = true;
+                unset($statuses[$index]);
+            }
+        }
+        
+        if($found == false) {
+            throw new HttpException(404, "Status doesn't exist");
+        }
+
+        file_put_contents($this->file, json_encode($statuses));
     }
 
     public function readJsonFile() {

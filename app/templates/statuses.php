@@ -1,6 +1,7 @@
 <h1>list</h1>
 
 <form action="/statuses" method="POST">
+	<input type="hidden" name="_method" value="POST">
     <label for="username">Username:</label>
     <input type="text" name="username">
 

@@ -19,6 +19,7 @@ $app->get('/', function () use ($app) {
     return $app->render('index.php');
 });
 
+
 $app->get('/statuses', function (Request $request) use ($app, $jsonF) {
 	//$statuses = $inMemoryF->findAll();
 
@@ -26,17 +27,25 @@ $app->get('/statuses', function (Request $request) use ($app, $jsonF) {
 	return $app->render('statuses.php', array('statuses' => $statuses));
 });
 
+$app->post('/statuses', function (Request $request) use ($app, $jsonF) {
+	$username = $request->getParameter('username');
+	$message = $request->getParameter('message');
+
+	$jsonF->addOne($username, $message);
+	
+	$app->redirect('/statuses');
+});
+
 $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $jsonF) {
 	//$status = $inMemoryF->findOneById($id);
 
 	$status = $jsonF->findOneById($id);
-	return $app->render('oneStatus.php', array('status' => $status));
+	return $app->render('status.php', array('status' => $status));
 });
 
-$app->post('/statuses', function (Request $request) use ($app) {
-});
-
-$app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app) {
+$app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $jsonF) {
+	$jsonF->deleteOneById($id);
+	$app->redirect('/statuses');
 });
 
 return $app;
