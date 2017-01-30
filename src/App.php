@@ -5,6 +5,7 @@ use Exception\HttpException;
 use Routing\Route;
 use View\TemplateEngineInterface;
 use Http\Request;
+use Http\Response;
 
 class App
 {
@@ -19,7 +20,7 @@ class App
     private $templateEngine;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $debug;
 
@@ -31,7 +32,7 @@ class App
     public function __construct(TemplateEngineInterface $templateEngine, $debug = false)
     {
         $this->templateEngine = $templateEngine;
-        $this->debug          = $debug;
+        $this->debug = $debug;
 
         $exceptionHandler = new ExceptionHandler($templateEngine, $this->debug);
         set_exception_handler(array($exceptionHandler, 'handle'));
@@ -92,7 +93,7 @@ class App
         }
 
         $method = $request->getMethod();
-        $uri    = $request->getUri();
+        $uri = $request->getUri();
 
         foreach ($this->routes as $route) {
             if ($route->match($method, $uri)) {
@@ -112,8 +113,10 @@ class App
             $arguments = $route->getArguments();
             array_unshift($arguments, $request);
 
-            http_response_code($this->statusCode);
-            echo call_user_func_array($route->getCallable(), $arguments);
+            $content = call_user_func_array($route->getCallable(), $arguments);
+
+            $response = new Response($content, $this->statusCode);
+            $response->send();
         } catch (HttpException $e) {
             throw $e;
         } catch (\Exception $e) {
