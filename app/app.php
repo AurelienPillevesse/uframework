@@ -12,13 +12,19 @@ $app = new \App(new View\TemplateEngine(
 	), $debug);
 
 
-$dsn = 'sqlite:./config/uframe.db';
+/*$dsn = 'sqlite:./config/uframe.db';
 $user = '';
 $password = '';
+*/
+$dsn = 'mysql:host=127.0.0.1;dbname=uframework;port=32768' ;
+$user = 'uframework' ;
+$password = 'p4ssw0rd';
 
 //$inMemoryF = new \Model\InMemoryFinder();
 //$jsonF = new \Model\JsonFinder();
 $connection = new Connection($dsn, $user, $password);
+$statusFinderMysql = new \Model\Finder\StatusFinder($connection);
+$statusMapperMysql = new \Model\DataMapper\StatusMapper($connection);
 
 /**
  * Index
@@ -28,10 +34,10 @@ $app->get('/', function () use ($app) {
 });
 
 
-$app->get('/statuses', function (Request $request) use ($app, $jsonF) {
+$app->get('/statuses', function (Request $request) use ($app, $statusFinderMysql) {
 	//$statuses = $inMemoryF->findAll();
-
-	$statuses = $jsonF->findAll();
+	//$statuses = $jsonF->findAll();
+	$statuses = $statusFinderMysql->findAll();
 	return $app->render('statuses.php', array('statuses' => $statuses));
 });
 

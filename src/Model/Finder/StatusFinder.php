@@ -10,7 +10,7 @@ class StatusFinder implements FinderInterface
 {
     private $connection;
 
-    private function __construct(Connection $connection)
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
@@ -23,7 +23,7 @@ class StatusFinder implements FinderInterface
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        var_dump($result);
+        //var_dump($result);
         //if(!empty($results)) {
             //todo
         //}
@@ -39,7 +39,7 @@ class StatusFinder implements FinderInterface
         $stmt->execute(['id' => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        var_dump($result);
+        //var_dump($result);
 
         //todo create instances of status
         //throw new HttpException(404, 'Status not found');
