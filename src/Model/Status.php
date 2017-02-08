@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use \DateTime;
+
 class Status
 {
     private $id;
@@ -9,14 +11,12 @@ class Status
     private $content;
     private $date;
 
-    public function __construct($id = null, $user = null, $content = null)
+    public function __construct($id, $user, $content, DateTime $date)
     {
-        if ($id != null & $user != null & $content != null) {
-            $this->setId($id);
-            $this->setUser($user);
-            $this->setContent($content);
-            $this->setDate(new DateTime('NOW'));
-        }
+        $this->setId($id);
+        $this->setUser($user);
+        $this->setContent($content);
+        $this->setDate($date);
     }
 
     public function getId()
@@ -24,38 +24,38 @@ class Status
         return $this->id;
     }
 
-    public function setId($id)
+    /*public function setId($id)
     {
         $this->id = $id;
-    }
+    }*/
 
     public function getUser()
     {
         return $this->user;
     }
 
-    public function setUserId($user)
+    /*public function setUserId($user)
     {
         $this->user = $user;
-    }
+    }*/
 
     public function getContent()
     {
         return $this->content;
     }
 
-    public function setContent($content)
+    /*public function setContent($content)
     {
         $this->content = $content;
-    }
+    }*/
 
     public function getDate()
     {
         return $this->date;
     }
 
-    public function setDate(DateTime $date)
+    /*public function setDate(DateTime $date)
     {
         $this->date = $date;
-    }
+    }*/
 }

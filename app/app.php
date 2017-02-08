@@ -2,21 +2,29 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Http\Request;
+use Dal\Connection;
 
 // Config
 $debug = true;
 
 $app = new \App(new View\TemplateEngine(
-    __DIR__ . '/templates/'
-), $debug);
+	__DIR__ . '/templates/'
+	), $debug);
 
-$inMemoryF = new \Model\InMemoryFinder();
-$jsonF = new \Model\JsonFinder();
+
+$dsn = 'sqlite:./config/uframe.db';
+$user = '';
+$password = '';
+
+//$inMemoryF = new \Model\InMemoryFinder();
+//$jsonF = new \Model\JsonFinder();
+$connection = new Connection($dsn, $user, $password);
+
 /**
  * Index
  */
 $app->get('/', function () use ($app) {
-    return $app->render('index.php');
+	return $app->render('index.php');
 });
 
 
