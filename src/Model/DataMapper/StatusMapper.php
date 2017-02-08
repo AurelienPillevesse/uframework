@@ -66,11 +66,9 @@ class StatusMapper
         }
     }
 
-    public function remove(Status $status)
+    public function remove($id)
     {
-        $query = 'DELETE FROM Status WHERE id = :id';
-        $stmt = $this->con->prepare($query);
-        $stmt->execute(['id' => $status->getId()]);
-        return $stmt;
+        $query = 'DELETE FROM STATUS WHERE ID = :id';
+        return $this->con->executeQuery($query,['id' => $id]);
     }
 }

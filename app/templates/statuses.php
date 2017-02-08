@@ -3,8 +3,7 @@
 <form action="/statuses" method="POST">
 	<input type="hidden" name="_method" value="POST">
 	<label for="username">Username:</label>
-	<input type="text" name="username">
-
+	<input type="text" name="username"/>
 	<label for="message">Message:</label>
 	<textarea name="message"></textarea>
 

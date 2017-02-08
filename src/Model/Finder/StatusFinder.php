@@ -21,12 +21,12 @@ class StatusFinder implements FinderInterface
         $query = 'SELECT * FROM STATUS';
 
         //var_dump($filter);
-        /*for ($i = 0; $i < count($filter); $i++) { 
+        /*for ($i = 0; $i < count($filter); $i++) {
             var_dump($filter['order']);
         }*/
 
         $filterKeys = array_keys($filter);
-        
+
         for ($i = 0; $i < count($filterKeys); $i++) {
             $currentKey = $filterKeys[$i];
             $currentValue = $filter[$currentKey];
@@ -43,7 +43,7 @@ class StatusFinder implements FinderInterface
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        for ($i = 0; $i < count($result); $i++) { 
+        for ($i = 0; $i < count($result); $i++) {
             $statuses[] = new Status($result[$i]['NAME'], $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
         }
 
@@ -69,6 +69,6 @@ class StatusFinder implements FinderInterface
 
         //todo create instances of status
         //throw new HttpException(404, 'Status not found');
-        return $result;
+        return $status;
     }
 }

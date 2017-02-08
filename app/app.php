@@ -55,19 +55,19 @@ $app->post('/statuses', function (Request $request) use ($app, $statusMapperMysq
 	$statusMapperMysql->persist(new \Model\Status($username, $message, new DateTime()));
 
 	//$jsonF->addOne($username, $message);
-	
+
 	$app->redirect('/statuses');
 });
 
-$app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $jsonF) {
+$app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusFinderMysql) {
 	//$status = $inMemoryF->findOneById($id);
 
-	$status = $jsonF->findOneById($id);
+	$status = $statusFinderMysql->findOneById($id);
 	return $app->render('status.php', array('status' => $status));
 });
 
-$app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $jsonF) {
-	$jsonF->deleteOneById($id);
+$app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusMapperMysql) {
+	$statusMapperMysql->remove($id);
 	$app->redirect('/statuses');
 });
 

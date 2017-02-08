@@ -15,7 +15,6 @@ class Connection extends PDO
 	public function executeQuery($query, array $parameters = [])
 	{
 		$stmt = $this->prepare($query);
-
 		return $stmt->execute($parameters);
 	}
 }
