@@ -38,10 +38,12 @@ $app->get('/', function () use ($app) {
 $app->get('/statuses', function (Request $request) use ($app, $statusFinderMysql) {
 	//$statuses = $inMemoryF->findAll();
 	//$statuses = $jsonF->findAll();
-	?limit=5&orderBy=createdAt
-	$limit = $request->getParameter('limit');
 
-	$statuses = $statusFinderMysql->findAll();
+	$filter['order'] = $request->getParameter("order") ? htmlspecialchars($request->getParameter("order")) : "";
+	$filter['limit'] = $request->getParameter("limit") ? htmlspecialchars($request->getParameter("limit")) : "";
+	$filter['orderBy'] = $request->getParameter("orderBy") ? htmlspecialchars($request->getParameter("orderBy")) : "";
+
+	$statuses = $statusFinderMysql->findAll($filter);
 
 	return $app->render('statuses.php', array('statuses' => $statuses));
 });

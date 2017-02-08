@@ -16,9 +16,28 @@ class StatusFinder implements FinderInterface
         $this->connection = $connection;
     }
 
-    public function findAll()
+    public function findAll($filter = null)
     {
         $query = 'SELECT * FROM STATUS';
+
+        //var_dump($filter);
+        /*for ($i = 0; $i < count($filter); $i++) { 
+            var_dump($filter['order']);
+        }*/
+
+        $filterKeys = array_keys($filter);
+        
+        for ($i = 0; $i < count($filterKeys); $i++) {
+            $currentKey = $filterKeys[$i];
+            $currentValue = $filter[$currentKey];
+
+            if($currentValue != '') {
+                $currentKey = preg_replace('/[A-Z]/', ' $0', $currentKey);
+                $addToQuery = strtoupper($currentKey) . ' ' . $currentValue;
+
+                $query .= ' '.$addToQuery;
+            }
+        }
 
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
