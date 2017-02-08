@@ -48,7 +48,7 @@ class ExceptionHandler
             'file' => $exception->getFile() != null ? $exception->getFile() : null,
             'line' => $exception->getLine() != null ? $exception->getLine() : null,
             'args' => array(),
-        ));
+            ));
 
         $firstTrace = array_shift($trace);
         $firstTrace['excerpt'] = $this->excerpt($firstTrace['file'], $firstTrace['line']);
@@ -58,7 +58,7 @@ class ExceptionHandler
         echo $this->templateEngine->render(__DIR__.'/templates/exception.php', array(
             'message' => $message,
             'trace' => $trace,
-        ));
+            ));
     }
 
     private function excerpt($file, $line)

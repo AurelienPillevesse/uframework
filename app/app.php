@@ -3,6 +3,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Http\Request;
 use Dal\Connection;
+use \DateTime;
 
 // Config
 $debug = true;
@@ -37,15 +38,21 @@ $app->get('/', function () use ($app) {
 $app->get('/statuses', function (Request $request) use ($app, $statusFinderMysql) {
 	//$statuses = $inMemoryF->findAll();
 	//$statuses = $jsonF->findAll();
+	?limit=5&orderBy=createdAt
+	$limit = $request->getParameter('limit');
+
 	$statuses = $statusFinderMysql->findAll();
+
 	return $app->render('statuses.php', array('statuses' => $statuses));
 });
 
-$app->post('/statuses', function (Request $request) use ($app, $jsonF) {
+$app->post('/statuses', function (Request $request) use ($app, $statusMapperMysql) {
 	$username = $request->getParameter('username');
 	$message = $request->getParameter('message');
 
-	$jsonF->addOne($username, $message);
+	$statusMapperMysql->persist(new \Model\Status($username, $message, new DateTime()));
+
+	//$jsonF->addOne($username, $message);
 	
 	$app->redirect('/statuses');
 });

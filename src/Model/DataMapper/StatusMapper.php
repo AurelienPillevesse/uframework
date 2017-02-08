@@ -3,6 +3,7 @@
 namespace Model\DataMapper;
 
 use Dal\Connection;
+use Model\Status;
 use \PDO;
 
 class StatusMapper
@@ -16,14 +17,26 @@ class StatusMapper
 
     public function persist(Status $status)
     {
-        $query = 'SELECT id FROM Status WHERE id = :id';
+        $query = 'SELECT ID FROM STATUS WHERE ID = :id';
         $stmt = $this->con->prepare($query);
         $stmt->execute(['id' => $status->getId()]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if(isset($result['id'])) {
-            $query = 'INSERT INTO Status (NAME, DESCRIPTION, CREATED_AT) VALUES(:name, :description, :created_at)';
-            $stmt = $this->connection->prepare($query);
+        //var_dump($result);
+        //die;
+
+        if(!isset($result['id'])) {
+
+            //var_dump('yoo');
+            //die;
+            $query = 'INSERT INTO STATUS (NAME, DESCRIPTION, CREATED_AT) VALUES(:name, :description, :created_at)';
+
+            return $this->con->executeQuery($query, [
+                'name' => $status->getUser(),
+                'description' => $status->getContent(),
+                'created_at' => $status->getDate()->format('Y-m-d H:i:s'),
+                ]);
+            /*$stmt = $this->con->prepare($query);
             $stmt->execute([
                 'name' => $status->getUser(),
                 'description' => $status->getContent(),
@@ -31,12 +44,19 @@ class StatusMapper
                 ]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            var_dump($result);
+
             $status->setId($this->con->LastInsertId());
 
-            return $stmt;
+            var_dump('ajouté');
+            var_dump($status);
+
+            die;*/
+
+            //return $stmt;
         } else {
             $query = 'UPDATE Status SET name = :name, description = :description WHERE id = :id';
-            $stmt = $this->connection->prepare($query);
+            $stmt = $this->con->prepare($query);
             $stmt->execute([
                 'name' => $status->getUser(),
                 'description' => $status->getContent(),

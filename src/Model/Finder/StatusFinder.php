@@ -4,6 +4,7 @@ namespace Model\Finder;
 
 use Exception\HttpException;
 use Dal\Connection;
+use Model\Status;
 use \PDO;
 
 class StatusFinder implements FinderInterface
@@ -23,12 +24,16 @@ class StatusFinder implements FinderInterface
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        for ($i = 0; $i < count($result); $i++) { 
+            $statuses[] = new Status($result[$i]['NAME'], $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
+        }
+
         //var_dump($result);
         //if(!empty($results)) {
             //todo
         //}
 
-        return $result;
+        return $statuses;
     }
 
     public function findOneById($id)
@@ -38,6 +43,8 @@ class StatusFinder implements FinderInterface
         $stmt = $this->connection->prepare($query);
         $stmt->execute(['id' => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $status = new Status($result['NAME'], $result['DESCRIPTION'], new \DateTime($result['CREATED_AT']), $result['ID']);
 
         //var_dump($result);
 

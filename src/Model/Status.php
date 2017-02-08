@@ -11,12 +11,13 @@ class Status
     private $content;
     private $date;
 
-    public function __construct($id, $user, $content, DateTime $date)
+    public function __construct($user, $content, DateTime $date, $id = null)
     {
-        $this->setId($id);
-        $this->setUser($user);
-        $this->setContent($content);
-        $this->setDate($date);
+        
+        $this->id = $id;
+        $this->user = $user;
+        $this->content = $content;
+        $this->date = $date;
     }
 
     public function getId()
