@@ -73,8 +73,22 @@ $app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $sta
 	$app->redirect('/statuses');
 });
 
-$app->get('/login', function (Request $request, $id) use ($app, $userFinderMysql) {
-	$userFinderMysql->findOneById($id);
+$app->post('/login', function (Request $request) use ($app, $userFinderMysql) {
+	$login = $request->getParameter('login');
+	$password = $request->getParameter('password');
+	
+	//findByLogin
+	$user = $userFinderMysql->findOneById($login);
+	//checkPassword
+	$app->redirect('/statuses');
+});
+
+$app->post('/register', function (Request $request, $id) use ($app, $userMapperMysql) {
+	$login = $request->getParameter('login');
+	$password = $request->getParameter('password');
+	
+	$userMapperMysql->persist(new \Model\User($login, $password));
+	
 	$app->redirect('/statuses');
 });
 
