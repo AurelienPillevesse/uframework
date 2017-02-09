@@ -3,7 +3,7 @@
 namespace Exception;
 
 use View\TemplateEngineInterface;
-use \Throwable;
+use \Exception;
 
 class ExceptionHandler
 {
@@ -26,7 +26,7 @@ class ExceptionHandler
     /**
      * @param Throwable $exception
      */
-    public function handle(Throwable $exception)
+    public function handle(Exception $exception)
     {
         if ($exception instanceof HttpException) {
             http_response_code($exception->getStatusCode());
