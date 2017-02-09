@@ -1,3 +1,5 @@
+<?php require 'header.php' ?>
+
 <h1>List</h1>
 
 <form action="/statuses" method="POST">
@@ -19,3 +21,4 @@ if ($statuses!=null) {
 	}
 }else echo "<h3>No tweet in database.</h3>";
 
+php require 'header.php' ?>

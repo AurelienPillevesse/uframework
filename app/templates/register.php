@@ -1,3 +1,5 @@
+<?php require 'header.php' ?>
+
 <h2>S'enregistrer maintenant</h2>
 
 <form action="/register" method="post">
@@ -10,3 +12,5 @@
   <br><br>
   <input type="submit" value="S'enregistrer">
 </form>
+
+<?php require 'footer.php' ?>
