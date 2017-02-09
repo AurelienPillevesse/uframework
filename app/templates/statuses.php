@@ -16,8 +16,6 @@ if ($statuses!=null) {
 		echo '<div><p>'.$s->getId().'</p>';
 		echo '<p>'.$s->getUser().'</p>';
 		echo '<p>'.$s->getContent().'</p></div>';
-		echo '<br>';
-	}else{
-		echo "<h3>No tweet in database.</h3>"
 	}
-}
+}else echo "<h3>No tweet in database.</h3>";
+

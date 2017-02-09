@@ -75,7 +75,7 @@ $app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $sta
 
 $app->get('/login', function (Request $request, $id) use ($app, $userFinderMysql) {
 	$userFinderMysql->findOneById($id);
-	$app->redirect('/statuses');
+	return $app->render('login.php', array('login' => $login));
 });
 
 return $app;
