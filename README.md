@@ -39,5 +39,6 @@ When the docker image run, a prompt is displayed, in which you can use some comm
 To connect ot the database you have to use the following command.
 
 	$ mysql uframework -h127.0.0.1 -P<assigned port> -uuframework -p
+	$ mysql uframework -uuframework -pp4sswOrd < app/config/schemaMYSQL.sql
 
 You have to give the port forwarded by the image with the `docker ps` command.
