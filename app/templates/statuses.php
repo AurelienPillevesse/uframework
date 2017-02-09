@@ -1,4 +1,4 @@
-<h1>list</h1>
+<h1>List</h1>
 
 <form action="/statuses" method="POST">
 	<input type="hidden" name="_method" value="POST">
@@ -11,9 +11,13 @@
 </form>
 
 <?php
-foreach ($statuses as $s) {
-	echo $s->getId().'<br>';
-	echo $s->getUser().'<br>';
-	echo $s->getContent().'<br>';
-	echo '<br>';
+if ($statuses!=null) {
+	foreach ($statuses as $s) {
+		echo '<div><p>'.$s->getId().'</p>';
+		echo '<p>'.$s->getUser().'</p>';
+		echo '<p>'.$s->getContent().'</p></div>';
+		echo '<br>';
+	}else{
+		echo "<h3>No tweet in database.</h3>"
+	}
 }

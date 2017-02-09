@@ -26,6 +26,7 @@ $password = 'p4ssw0rd';
 $connection = new Connection($dsn, $user, $password);
 $statusFinderMysql = new \Model\Finder\StatusFinder($connection);
 $statusMapperMysql = new \Model\DataMapper\StatusMapper($connection);
+$userMapperMysql = new \Model\DataMapper\UserMapper($connection);
 
 /**
  * Index
@@ -68,6 +69,11 @@ $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $status
 
 $app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusMapperMysql) {
 	$statusMapperMysql->remove($id);
+	$app->redirect('/statuses');
+});
+
+$app->login('/login', function (Request $request, $id) use ($app, $statusMapperMysql) {
+	$userMapperMysql->remove($id);
 	$app->redirect('/statuses');
 });
 
