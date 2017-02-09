@@ -11,7 +11,7 @@ class User
   private $login;
   private $password;
 
-  function __construct($login,$password)
+  function __construct($id,$login,$password)
   {
     $this->login = $login;
     $this->password = $password;
