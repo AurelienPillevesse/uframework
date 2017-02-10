@@ -4,21 +4,33 @@
 
 <form action="/statuses" method="POST">
 	<input type="hidden" name="_method" value="POST">
-	<label for="username">Username:</label>
-	<input type="text" name="username"/>
-	<label for="message">Message:</label>
-	<textarea name="message"></textarea>
-
-	<input type="submit" value="Tweet!">
+	<div class="row">
+		<div class="input-field col s12">
+			<input  placeholder="Enter your status"  id="message" name="message" class="validate">
+		</div>
+	</div>
+	<button class="btn waves-effect waves-light" type="submit" name="action">Tweet!
+		<i class="material-icons right">send</i>
+	</button>
 </form>
 
 <?php
 if ($statuses!=null) {
-	foreach ($statuses as $s) {
-		echo '<div><p>'.$s->getId().'</p>';
-		echo '<p>'.$s->getUser().'</p>';
-		echo '<p>'.$s->getContent().'</p></div>';
-	}
+	foreach ($statuses as $s) { ?>
+	<div>
+		<?php if($_SESSION['login'] == $s->getUser()) { ?>
+		<form action="/statuses/<?php echo $s->getId(); ?>" method="POST">
+			<input type="hidden" name="_method" value="DELETE">
+			<input type="submit" value="Delete">
+		</form>
+		<?php } ?>
+		<p><?php echo $s->getUser(); ?></p>
+		<p><?php echo $s->getContent(); ?></p>
+		<p><a href="/statuses/<?php echo $s->getId(); ?>">See this status</a></p>
+	</div>
+
+	<?php
+}
 }else echo "<h3>No tweet in database.</h3>";
 
-include 'header.php' ?>
+include 'footer.php' ?>

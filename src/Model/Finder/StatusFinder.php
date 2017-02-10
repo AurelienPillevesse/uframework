@@ -45,7 +45,11 @@ class StatusFinder implements FinderInterface
 
         $statuses = [];
         for ($i = 0; $i < count($result); $i++) {
-            $statuses[] = new Status($result[$i]['NAME'], $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
+            if($result[$i]['NAME']) {
+                $statuses[] = new Status($result[$i]['NAME'], $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
+            } else {
+                $statuses[] = new Status('Anonymous', $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
+            }
         }
 
         //var_dump($result);

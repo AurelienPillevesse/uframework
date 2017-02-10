@@ -12,35 +12,29 @@ $app = new \App(new View\TemplateEngine(
 	__DIR__ . '/templates/'
 	), $debug);
 
-
-/*$dsn = 'sqlite:./config/uframe.db';
-$user = '';
-$password = '';
-*/
 $dsn = 'mysql:host=127.0.0.1;dbname=uframework;port=32768' ;
 $user = 'uframework' ;
 $password = 'p4ssw0rd';
 
-//$inMemoryF = new \Model\InMemoryFinder();
-//$jsonF = new \Model\JsonFinder();
 $connection = new Connection($dsn, $user, $password);
 $statusFinderMysql = new \Model\Finder\StatusFinder($connection);
 $statusMapperMysql = new \Model\DataMapper\StatusMapper($connection);
 $userMapperMysql = new \Model\DataMapper\UserMapper($connection);
 $userFinderMysql = new \Model\Finder\UserFinder($connection);
 
+session_start();
+
 /**
  * Index
  */
 $app->get('/', function () use ($app) {
-	return $app->render('index.php');
+	//if(isset($_SESSION['isAuthenticated'])) {
+	return $app->redirect('/statuses');
+	//}
+	//return $app->render('login.php');
 });
 
-
 $app->get('/statuses', function (Request $request) use ($app, $statusFinderMysql) {
-	//$statuses = $inMemoryF->findAll();
-	//$statuses = $jsonF->findAll();
-
 	$filter['order'] = $request->getParameter("order") ? htmlspecialchars($request->getParameter("order")) : "";
 	$filter['limit'] = $request->getParameter("limit") ? htmlspecialchars($request->getParameter("limit")) : "";
 	$filter['orderBy'] = $request->getParameter("orderBy") ? htmlspecialchars($request->getParameter("orderBy")) : "";
@@ -51,57 +45,69 @@ $app->get('/statuses', function (Request $request) use ($app, $statusFinderMysql
 });
 
 $app->post('/statuses', function (Request $request) use ($app, $statusMapperMysql) {
-	$username = $request->getParameter('username');
+	$username = isset($_SESSION['login']) ? $_SESSION['login'] : null;
 	$message = $request->getParameter('message');
 
-	$statusMapperMysql->persist(new \Model\Status($username, $message, new DateTime()));
+	if($username != null) {
+		$statusMapperMysql->persist(new \Model\Status($username, $message, new DateTime()));
+	} else {
+		$statusMapperMysql->persist(new \Model\Status($username, $message, new DateTime()));
+	}
 
-	//$jsonF->addOne($username, $message);
-
-	$app->redirect('/statuses');
+	return $app->redirect('/statuses');
 });
 
 $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusFinderMysql) {
-	//$status = $inMemoryF->findOneById($id);
-
 	$status = $statusFinderMysql->findOneById($id);
+
 	return $app->render('status.php', array('status' => $status));
 });
 
 $app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusMapperMysql) {
 	$statusMapperMysql->remove($id);
-	$app->redirect('/statuses');
+
+	return $app->redirect('/statuses');
 });
 
 $app->get('/login', function (Request $request, $id) use ($app, $userFinderMysql) {
-	//$userFinderMysql->findOneById($id);
 	return $app->render('login.php');
 });
+
 $app->post('/login', function (Request $request) use ($app, $userFinderMysql) {
 	$login = $request->getParameter('login');
 	$password = $request->getParameter('password');
 
 	$user = $userFinderMysql->findOneByLogin($login);
 
-	if($user != null && $user->verifyPassword($password)) {
-		$app->redirect('/statuses');
+	if($user == null){
+		throw new HttpException(403,"Could not find user's login");
+	}
+	if(!$user->verifyPassword($password)){
+		throw new HttpException(403,"Not good password for this user");
 	}
 
-	var_dump('GENERER ERREUR');
-	die;
+	$_SESSION['login'] = $user->getLogin();
+	$_SESSION['isAuthenticated'] = true;
+
+	return $app->redirect('/statuses');
 });
 
-$app->get('/register', function (Request $request, $id) use ($app, $userMapperMysql) {
+$app->get('/register', function (Request $request) use ($app) {
 	return $app->render('register.php');
 });
 
-$app->post('/register', function (Request $request, $id) use ($app, $userMapperMysql) {
+$app->post('/register', function (Request $request) use ($app, $userMapperMysql) {
 	$login = $request->getParameter('login');
 	$password = $request->getParameter('password');
 
 	$userMapperMysql->persist(new \Model\User($login, $password));
 
-	$app->redirect('/login');
+	return $app->redirect('/login');
+});
+
+$app->get('/logout', function (Request $request) use ($app) {
+	session_destroy();
+	return $app->redirect('/');
 });
 
 return $app;

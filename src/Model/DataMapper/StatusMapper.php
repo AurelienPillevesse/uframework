@@ -18,7 +18,6 @@ class StatusMapper
     public function persist(Status $status)
     {
         $query = 'INSERT INTO STATUS (NAME, DESCRIPTION, CREATED_AT) VALUES(:name, :description, :created_at)';
-
         return $this->con->executeQuery($query, [
             'name' => $status->getUser(),
             'description' => $status->getContent(),
