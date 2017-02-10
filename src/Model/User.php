@@ -9,12 +9,21 @@ class User
 {
   private $id;
   private $login;
-  private $password;
+  private $hash;
 
-  function __construct($id,$login,$password)
+  function __construct($login, $password = null, $hash = null, $id = null)
   {
+    if($password != null) {
+      $this->hash = password_hash($password, PASSWORD_DEFAULT);
+    }
+    if($hash != null) {
+      $this->hash = $hash;
+    }
     $this->login = $login;
-    $this->password = $password;
+
+    if($id != null) {
+      $this->id = $id;
+    }
   }
 
   public function getId()
@@ -24,7 +33,7 @@ class User
 
   public function setId($id)
   {
-      $this->id = $id;
+    $this->id = $id;
   }
 
   public function getLogin()
@@ -32,8 +41,13 @@ class User
     return $this->login;
   }
 
-  private function getPassword($value='')
+  public function getHash()
   {
-    return $this->password;
+    return $this->hash;
+  }
+
+  public function verifyPassword($password)
+  {
+    return password_verify($password, $this->hash);
   }
 }

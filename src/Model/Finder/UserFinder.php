@@ -18,23 +18,25 @@ class UserFinder
 
     public function findOneById($id)
     {
-        $request = 'SELECT * FROM USER WHERE ID=:id';
-        //$stmt = $this->con->executeQuery($request, ['id' => $id]);
-        //$result = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        $request = 'SELECT * FROM USER WHERE ID = :id';
         $stmt = $this->con->prepare($request);
         $stmt->bindValue(':id',$id);
         $stmt->execute();
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return count($result) == 0 ? null : new User($result[0]['ID'], $result[0]['LOGIN'], $result[0]['PASSWORD']);
+        return count($result) == 0 ? null : new User($result['LOGIN'], null, $result['HASH'], $result['ID']);
     }
 
     public function findOneByLogin($login)
     {
-        $request = 'SELECT * FROM USER WHERE LOGIN=:login';
-        $stmt = $this->con->executeQuery($request, ['login' => $login]);
+        $request = 'SELECT * FROM USER WHERE LOGIN = :login';
+        $stmt = $this->con->prepare($request);
+        $stmt->bindValue(':login', $login);
+        $stmt->execute();
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return count($result) == 0 ? null : new User($result[0]['ID'], $result[0]['LOGIN'], $result[0]['PASSWORD']);
+
+        return count($result) == 0 ? null : new User($result['LOGIN'], null, $result['HASH'], $result['ID']);
     }
 }

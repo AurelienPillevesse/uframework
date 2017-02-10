@@ -3,7 +3,6 @@
 namespace Model\DataMapper;
 
 use Dal\Connection;
-use Model\Status;
 use \PDO;
 
 class UserMapper implements DataMapperInterface
@@ -17,13 +16,13 @@ class UserMapper implements DataMapperInterface
 
     public function persist($user)
     {
-        $request = 'INSERT INTO USER(LOGIN, PASSWORD) VALUES (:login,:password)';
-        $this->con->prepareAndExecuteQuery($request, ['login' => $user->getUserName(), 'password' => $user->getUserPassword()]);
+        $request = 'INSERT INTO USER(LOGIN, HASH) VALUES (:login, :hash)';
+        $this->con->executeQuery($request, ['login' => $user->getLogin(), 'hash' => $user->getHash()]);
     }
 
     public function remove($id)
     {
-        $request = 'DELETE FROM USER WHERE ID=:id';
-        $this->con->prepareAndExecuteQuery($request, ['id', $id]);
+        $request = 'DELETE FROM USER WHERE ID = :id';
+        $this->con->executeQuery($request, ['id', $id]);
     }
 }

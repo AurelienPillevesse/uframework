@@ -43,6 +43,7 @@ class StatusFinder implements FinderInterface
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        $statuses = [];
         for ($i = 0; $i < count($result); $i++) {
             $statuses[] = new Status($result[$i]['NAME'], $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
         }
