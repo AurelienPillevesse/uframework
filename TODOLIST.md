@@ -3,6 +3,5 @@
 ### IMPORTANT TASKS
 
  - [ ]  Guess best format
- - [ ] Add anonimously
-
-### Optional Tasks
+ - [ ] Add anonymously
+ - [ ] Add search specific
