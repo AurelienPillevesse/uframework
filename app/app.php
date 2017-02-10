@@ -15,8 +15,13 @@ $app = new \App(new View\TemplateEngine(
 $dsn = 'mysql:host=127.0.0.1;dbname=uframework;port=32768' ;
 $user = 'uframework' ;
 $password = 'p4ssw0rd';
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+];
 
-$connection = new Connection($dsn, $user, $password);
+$connection = new Connection($dsn, $user, $password, $options);
 $statusFinderMysql = new \Model\Finder\StatusFinder($connection);
 $statusMapperMysql = new \Model\DataMapper\StatusMapper($connection);
 $userMapperMysql = new \Model\DataMapper\UserMapper($connection);
