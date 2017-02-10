@@ -1,4 +1,4 @@
-<?php require 'header.php' ?>
+<?php include 'header.php' ?>
 
 <h1>List</h1>
 
@@ -21,4 +21,4 @@ if ($statuses!=null) {
 	}
 }else echo "<h3>No tweet in database.</h3>";
 
-php require 'header.php' ?>
+php include 'header.php' ?>

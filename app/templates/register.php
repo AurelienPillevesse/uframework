@@ -1,4 +1,4 @@
-<?php require 'header.php' ?>
+<?php include 'header.php' ?>
 
 <h2>S'enregistrer maintenant</h2>
 
@@ -13,4 +13,4 @@
   <input type="submit" value="S'enregistrer">
 </form>
 
-<?php require 'footer.php' ?>
+<?php include 'footer.php' ?>

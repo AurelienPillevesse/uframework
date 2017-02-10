@@ -1,5 +1,5 @@
-<?php require 'header.php' ?>
+<?php include 'header.php' ?>
 
 <h1>Hello, World!</h1>
 
-<?php require 'footer.php' ?>
+<?php include 'footer.php' ?>

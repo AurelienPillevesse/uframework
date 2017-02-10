@@ -1,4 +1,4 @@
-<?php require 'header.php' ?>
+<?php include 'header.php' ?>
 
 <h3>Se connecter</h3>
 
@@ -13,4 +13,4 @@
   <input type="submit" value="Connection">
 </form>
 
-<?php require 'footer.php' ?>
+<?php include 'footer.php' ?>

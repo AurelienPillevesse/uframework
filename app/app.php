@@ -75,7 +75,7 @@ $app->delete('/statuses/(\d+)', function (Request $request, $id) use ($app, $sta
 
 $app->get('/login', function (Request $request, $id) use ($app, $userFinderMysql) {
 	//$userFinderMysql->findOneById($id);
-	return $app->render('login.php', array('login' => $login));
+	return $app->render('login.php');
 	});
 $app->post('/login', function (Request $request) use ($app, $userFinderMysql) {
 	$login = $request->getParameter('login');
@@ -84,12 +84,12 @@ $app->post('/login', function (Request $request) use ($app, $userFinderMysql) {
 	//findByLogin
 	$user = $userFinderMysql->findOneByLogin($login);
 	//checkPassword
-	return $app->render('login.php', array('login' => $login));
+		$app->redirect('/statuses');
 });
 
 $app->get('/register', function (Request $request, $id) use ($app, $userMapperMysql) {
 
-	return $app->render('register.php', array('user' => $user));
+	return $app->render('register.php');
 	});
 
 $app->post('/register', function (Request $request, $id) use ($app, $userMapperMysql) {

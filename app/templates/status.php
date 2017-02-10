@@ -1,5 +1,5 @@
 <?php
-php require 'header.php'
+php include 'header.php'
  if ($status): ?>
   <form action="/statuses/<?= $status->getId() ?>" method="POST">
       <input type="hidden" name="_method" value="DELETE">
@@ -12,4 +12,4 @@ echo $status->getContent().'<br>';
 echo '<br>';
 
 
-php require 'footer.php' ?>
+php include 'footer.php' ?>
