@@ -52,13 +52,9 @@ $app->get('/statuses', function (Request $request) use ($app, $statusFinderMysql
 $app->post('/statuses', function (Request $request) use ($app, $statusMapperMysql) {
 	$username = isset($_SESSION['login']) ? $_SESSION['login'] : null;
 	$message = $request->getParameter('message');
-
-	if($username != null) {
-		$statusMapperMysql->persist(new \Model\Status($username, $message, new DateTime()));
-	} else {
-		$statusMapperMysql->persist(new \Model\Status($username, $message, new DateTime()));
-	}
-
+	
+	$statusMapperMysql->persist(new \Model\Status($username, $message, new DateTime()));
+	
 	return $app->redirect('/statuses');
 });
 
