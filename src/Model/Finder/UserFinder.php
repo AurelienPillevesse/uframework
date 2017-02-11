@@ -20,7 +20,7 @@ class UserFinder
     {
         $request = 'SELECT * FROM USER WHERE ID = :id';
         $stmt = $this->con->prepare($request);
-        $stmt->bindValue(':id',$id);
+        $stmt->bindValue(':id', $id);
         $stmt->execute();
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);

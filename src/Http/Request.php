@@ -22,7 +22,7 @@ class Request
 
     public function getParameter($name, $default = null)
     {
-        if(isset($this->parameters[$name])) {
+        if (isset($this->parameters[$name])) {
             return $this->parameters[$name];
         }
         

@@ -12,12 +12,16 @@
       <a href="/" class="brand-logo">UFramework</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="/statuses">List Tweets</a></li>
-        <?php if(isset($_SESSION['isAuthenticated'])) { ?>
+        <?php if (isset($_SESSION['is_authenticated'])) {
+    ?>
         <li><a href="/logout">Logout</a></li>
-        <?php } else { ?>
+        <?php 
+} else {
+    ?>
         <li><a href="/login">Login</a></li>
         <li><a href="/register">Register</a></li>
-        <?php } ?>
+        <?php 
+} ?>
       </ul>
     </div>
   </nav>

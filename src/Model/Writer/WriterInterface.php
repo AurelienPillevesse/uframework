@@ -4,7 +4,7 @@ namespace Model\Writer;
 
 interface WriterInterface
 {
-	public function insert($status);
+    public function insert($status);
 
-	public function remove($id);
+    public function remove($id);
 }

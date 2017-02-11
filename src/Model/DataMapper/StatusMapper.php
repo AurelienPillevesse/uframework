@@ -17,17 +17,26 @@ class StatusMapper
 
     public function persist(Status $status)
     {
-        $query = 'INSERT INTO STATUS (NAME, DESCRIPTION, CREATED_AT) VALUES(:name, :description, :created_at)';
+        $query = 'INSERT INTO STATUS (USER_ID, DESCRIPTION, CREATED_AT) VALUES(:user_id, :description, :created_at)';
+
+        if ($status->getUser() !== null) {
+            return $this->con->executeQuery($query, [
+                'user_id' => $status->getUser()->getId(),
+                'description' => $status->getContent(),
+                'created_at' => $status->getDate()->format('Y-m-d H:i:s'),
+                ]);
+        }
+
         return $this->con->executeQuery($query, [
-            'name' => $status->getUser(),
-            'description' => $status->getContent(),
-            'created_at' => $status->getDate()->format('Y-m-d H:i:s'),
-            ]);
+                'user_id' => $status->getUser(),
+                'description' => $status->getContent(),
+                'created_at' => $status->getDate()->format('Y-m-d H:i:s'),
+                ]);
     }
 
     public function remove($id)
     {
         $query = 'DELETE FROM STATUS WHERE ID = :id';
-        return $this->con->executeQuery($query,['id' => $id]);
+        return $this->con->executeQuery($query, ['id' => $id]);
     }
 }

@@ -13,7 +13,6 @@ class Status
 
     public function __construct($user, $content, DateTime $date, $id = null)
     {
-        
         $this->id = $id;
         $this->user = $user;
         $this->content = $content;
@@ -35,28 +34,13 @@ class Status
         return $this->user;
     }
 
-    /*public function setUserId($user)
-    {
-        $this->user = $user;
-    }*/
-
     public function getContent()
     {
         return $this->content;
     }
 
-    /*public function setContent($content)
-    {
-        $this->content = $content;
-    }*/
-
     public function getDate()
     {
         return $this->date;
     }
-
-    /*public function setDate(DateTime $date)
-    {
-        $this->date = $date;
-    }*/
 }

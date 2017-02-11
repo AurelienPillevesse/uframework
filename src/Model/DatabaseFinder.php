@@ -25,12 +25,10 @@ class DatabaseFinder implements FinderInterface
      */
     public function findOneById($id)
     {
-        
         throw new HttpException(404, 'Status not found');
     }
 
     public function addOne($username, $message)
     {
-
     }
 }

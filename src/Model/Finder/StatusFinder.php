@@ -18,12 +18,14 @@ class StatusFinder implements FinderInterface
 
     public function findAll($filter = null)
     {
-        $query = 'SELECT * FROM STATUS';
+        //$query = 'SELECT * FROM STATUS';
 
         //var_dump($filter);
         /*for ($i = 0; $i < count($filter); $i++) {
             var_dump($filter['order']);
         }*/
+
+        $query = 'SELECT s.ID, s.DESCRIPTION, s.CREATED_AT, u.LOGIN FROM STATUS s LEFT JOIN USER u ON s.USER_ID = u.ID';
 
         $filterKeys = array_keys($filter);
 
@@ -31,7 +33,7 @@ class StatusFinder implements FinderInterface
             $currentKey = $filterKeys[$i];
             $currentValue = $filter[$currentKey];
 
-            if($currentValue != '') {
+            if ($currentValue != '') {
                 $currentKey = preg_replace('/[A-Z]/', ' $0', $currentKey);
                 $addToQuery = strtoupper($currentKey) . ' ' . $currentValue;
 
@@ -45,8 +47,8 @@ class StatusFinder implements FinderInterface
 
         $statuses = [];
         for ($i = 0; $i < count($result); $i++) {
-            if($result[$i]['NAME']) {
-                $statuses[] = new Status($result[$i]['NAME'], $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
+            if ($result[$i]['LOGIN']) {
+                $statuses[] = new Status($result[$i]['LOGIN'], $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
             } else {
                 $statuses[] = new Status('Anonymous', $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
             }
