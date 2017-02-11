@@ -9,3 +9,4 @@ SELECT * FROM User u LEFT JOIN Status s ON s.user_id = u.id;
  - [x] Add anonymously
  - [ ] Add search specific
  - [ ] Trait?
+ - [ ] PSR verifications
