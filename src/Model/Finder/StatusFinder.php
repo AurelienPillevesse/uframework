@@ -27,17 +27,22 @@ class StatusFinder implements FinderInterface
 
         $query = 'SELECT s.ID, s.DESCRIPTION, s.CREATED_AT, u.LOGIN FROM STATUS s LEFT JOIN USER u ON s.USER_ID = u.ID';
 
-        $filterKeys = array_keys($filter);
+        if (isset($filter['orderBy']) && $filter['orderBy'] === 'createdAt') {
+            $query .= ' ORDER BY CREATED_AT';
+        }
 
-        for ($i = 0; $i < count($filterKeys); $i++) {
-            $currentKey = $filterKeys[$i];
-            $currentValue = $filter[$currentKey];
+        if (isset($filter['limit'])) {
+            $query .= ' LIMIT 0, ' . $filter['limit'];
+        }
 
-            if ($currentValue != '') {
-                $currentKey = preg_replace('/[A-Z]/', ' $0', $currentKey);
-                $addToQuery = strtoupper($currentKey) . ' ' . $currentValue;
-
-                $query .= ' '.$addToQuery;
+        if (isset($filter['order'])) {
+            switch ($filter['order']) {
+                case 'ASC':
+                    $query .= ' ASC';
+                    break;
+                case 'DESC':
+                    $query .= ' DESC';
+                    break;
             }
         }
 

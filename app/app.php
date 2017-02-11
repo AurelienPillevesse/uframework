@@ -2,8 +2,9 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Http\Request;
+use Http\JsonResponse;
 use Dal\Connection;
-use \DateTime;
+use DateTime;
 
 // Config
 $debug = true;
@@ -33,24 +34,29 @@ session_start();
  * Index
  */
 $app->get('/', function () use ($app) {
-    //if(isset($_SESSION['is_authenticated'])) {
     return $app->redirect('/statuses');
-    //}
-    //return $app->render('login.php');
 });
 
 $app->get('/statuses', function (Request $request) use ($app, $statusFinderMysql) {
-    $filter['order'] = $request->getParameter("order") ? htmlspecialchars($request->getParameter("order")) : "";
-    $filter['limit'] = $request->getParameter("limit") ? htmlspecialchars($request->getParameter("limit")) : "";
-    $filter['orderBy'] = $request->getParameter("orderBy") ? htmlspecialchars($request->getParameter("orderBy")) : "";
+    $filter['limit'] = $request->getParameter("limit") ? htmlspecialchars(preg_replace('/\s+/', '', $request->getParameter("limit"))) : null;
+    $filter['orderBy'] = $request->getParameter("orderBy") ? htmlspecialchars(preg_replace('/\s+/', '', $request->getParameter("orderBy"))) : null;
+    $filter['order'] = $request->getParameter("order") ? htmlspecialchars(preg_replace('/\s+/', '', $request->getParameter("order"))) : null;
 
     $statuses = $statusFinderMysql->findAll($filter);
+
+    if ($request->guessBestFormat() == 'application/json') {
+        return JsonResponse(json_encode($statuses));
+    }
 
     return $app->render('statuses.php', array('statuses' => $statuses));
 });
 
 $app->post('/statuses', function (Request $request) use ($app, $statusMapperMysql) {
-    $message = $request->getParameter('message');
+    $message = htmlspecialchars(trim($request->getParameter('message')));
+    
+    if ($message === "") {
+        return $app->redirect('/statuses');
+    }
 
     $user = isset($_SESSION['login']) ? $_SESSION['login'] : null;
     if ($user !== null && isset($_SESSION['id'])) {
@@ -64,6 +70,14 @@ $app->post('/statuses', function (Request $request) use ($app, $statusMapperMysq
 
 $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusFinderMysql) {
     $status = $statusFinderMysql->findOneById($id);
+
+    if ($status !== null) {
+        throw new HttpException(404, "Status not found");
+    }
+
+    if ($request->guessBestFormat() == 'application/json') {
+        return JsonResponse(json_encode($status));
+    }
 
     return $app->render('status.php', array('status' => $status));
 });
@@ -88,7 +102,7 @@ $app->post('/login', function (Request $request) use ($app, $userFinderMysql) {
         throw new HttpException(403, "Could not find user's login");
     }
     if (!$user->verifyPassword($password)) {
-        throw new HttpException(403, "Not good password for this user");
+        throw new HttpException(403, "Wrong password for this user");
     }
 
     $_SESSION['id'] = $user->getId();
