@@ -9,6 +9,8 @@ use Http\Response;
 
 class App
 {
+    use EventDispatcher\EventDispatcherTrait;
+
     /**
      * @var array
      */
@@ -109,6 +111,8 @@ class App
      */
     private function process(Route $route, Request $request)
     {
+        $this->dispatch('process.before', [ $request ]);
+
         try {
             $arguments = $route->getArguments();
             array_unshift($arguments, $request);
