@@ -5,8 +5,8 @@ SELECT * FROM User u LEFT JOIN Status s ON s.user_id = u.id;
 
 ### IMPORTANT TASKS
 
- - [ ]  Guess best format
+ - [x]  Guess best format
  - [x] Add anonymously
- - [ ] Add search specific
+ - [x] Add search specific
  - [ ] Trait?
- - [ ] PSR verifications
+ - [x] PSR verifications
