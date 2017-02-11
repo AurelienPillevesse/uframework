@@ -4,7 +4,6 @@ require __DIR__ . '/../vendor/autoload.php';
 use Http\Request;
 use Http\JsonResponse;
 use Dal\Connection;
-use DateTime;
 
 // Config
 $debug = true;
