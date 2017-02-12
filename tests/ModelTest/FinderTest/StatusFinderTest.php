@@ -13,29 +13,31 @@ class StatusFinderTest extends TestCase
 
     public function setUp()
     {
-      $dsn = 'mysql:host=127.0.0.1;dbname=uframework;port=32768' ;
-      $user = 'uframework' ;
-      $password = 'p4ssw0rd';
       $options = [
           PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
           PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
           PDO::ATTR_EMULATE_PREPARES => false,
       ];
-        $this->con = new Connection($dsn, $user, $password, $options);
+        $this->con = new Connection("sqlite::memory:", "", "", $options);
         $this->con->exec(<<<SQL
         CREATE TABLE IF NOT EXISTS STATUS (
-        	ID           INT(6)          NOT NULL AUTO_INCREMENT,
+        	ID           INT(6)          NOT NULL,
         	DESCRIPTION  VARCHAR(250)	 NOT NULL,
         	CREATED_AT   DATETIME		 NOT NULL,
-        	USER_ID      INT(6),
-        	PRIMARY KEY (ID)
+        	USER_ID      INT(6)
         )
+        
+        CREATE TABLE IF NOT EXISTS USER (
+            ID      INT(6)       		NOT NULL,
+            LOGIN	VARCHAR(250)		NOT NULL,
+            HASH	VARCHAR(250)		NOT NULL,
+        ) ENGINE=InnoDB;
 
-            INSERT INTO `STATUS` (`DESCRIPTION`, `CREATED_AT`, `USER_ID`) VALUES
-            ('Status de test unitaire', '2017-02-12 13:00:39', 1);
+            INSERT INTO `STATUS` (`ID`, `DESCRIPTION`, `CREATED_AT`, `USER_ID`) VALUES
+            (1, 'Status de test unitaire', '2017-02-12 13:00:39', 1);
             
-            INSERT INTO `USER` (`LOGIN`, `HASH`) VALUES
-            ('UnitTestUser', 'foiednbfidnbsiufedkjnh');
+            INSERT INTO `USER` (`ID`, `LOGIN`, `HASH`) VALUES
+            (1, 'UnitTestUser', 'foiednbfidnbsiufedkjnh');
             SQL
             );
         $this->finder = new StatusFinder($this->con);
