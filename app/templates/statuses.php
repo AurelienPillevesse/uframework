@@ -36,7 +36,7 @@ if ($statuses!=null) {
     foreach ($statuses as $s) {
         ?>
 	<div>
-		<?php if (isset($_SESSION['login']) && $_SESSION['login'] == $s->getUser()) {
+		<?php if (isset($_SESSION['login']) && $_SESSION['login'] == $s->getUser()->getLogin()) {
             ?>
 		<form action="/statuses/<?php echo $s->getId(); ?>" method="POST">
 			<input type="hidden" name="_method" value="DELETE">
