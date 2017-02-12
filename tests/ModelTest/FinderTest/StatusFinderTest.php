@@ -31,7 +31,7 @@ class StatusFinderTest extends TestCase
             ID      INT(6)       		NOT NULL,
             LOGIN	VARCHAR(250)		NOT NULL,
             HASH	VARCHAR(250)		NOT NULL,
-        ) ENGINE=InnoDB;
+        )
 
             INSERT INTO `STATUS` (`ID`, `DESCRIPTION`, `CREATED_AT`, `USER_ID`) VALUES
             (1, 'Status de test unitaire', '2017-02-12 13:00:39', 1);
