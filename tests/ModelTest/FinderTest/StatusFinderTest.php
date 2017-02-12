@@ -30,8 +30,11 @@ class StatusFinderTest extends TestCase
         	PRIMARY KEY (ID)
         )
 
-            INSERT INTO `STATUS` (`ID`, `DESCRIPTION`, `CREATED_AT`, `USER_ID`) VALUES
-            (1, 'Status de test unitaire', 'UnitTestUser', '2017-02-12 13:00:39');
+            INSERT INTO `STATUS` (`DESCRIPTION`, `CREATED_AT`, `USER_ID`) VALUES
+            ('Status de test unitaire', '2017-02-12 13:00:39', 1);
+            
+            INSERT INTO `USER` (`LOGIN`, `HASH`) VALUES
+            ('UnitTestUser', 'foiednbfidnbsiufedkjnh');
             SQL
             );
         $this->finder = new StatusFinder($this->con);
@@ -44,7 +47,7 @@ class StatusFinderTest extends TestCase
 
     public function testFindAll()
     {
-    $expected = new Status('UnitTestUser', 'Status de test unitaire', date('2017-02-12 13:00:39'),1);
+    $expected = new Status(new User('UnitTestUser'), 'Status de test unitaire', date('2017-02-12 13:00:39'), 1);
     $statuses = $this->finder->findAll($this->filter);
     $this->assertEquals($expected, $statuses[0]);
 }
@@ -58,7 +61,7 @@ public function testCountFindAll()
 
 public function testFindOneById()
 {
-    $expected = new Status('UnitTestUser', 'Status de test unitaire', date('2017-02-12 13:00:39'),1);
+    $expected = new Status(new User('UnitTestUser'), 'Status de test unitaire', date('2017-02-12 13:00:39'),1);
     $status = $this->finder->findOneById(1);
     $this->assertEquals($expected, $status);
 }
