@@ -26,35 +26,22 @@ class UserFinderTest extends TestCase
         	PRIMARY KEY (ID)
         );
 
-        INSERT INTO `USER` (`ID`, `LOGIN`, `HASH`) VALUES
-        (1, 'UnitTestUser', 'PasswordTest'); //HASH PASSWORD
+        INSERT INTO `USER` (`LOGIN`, `HASH`) VALUES
+        ('UnitTestUser', 'PasswordTest');
         SQL);
         $this->finder = new UserFinder($this->con);
     }
 
-    public function testFindOneByIdCount()
+    public function testFindOneByLoginCount()
     {
-        $user = $this->finder->findOneById(1);
+        $user = $this->finder->findOneByLogin('UnitTestUser');
         $this->assertEquals(1, count($user));
     }
 
-    public function testFindOneById()
+    public function testFindOneByLogin()
     {
-        $expected = new User('UnitTestUser', 'password', null,1);
-        $user = $this->finder->findOneById(1);
-        $this->assertEquals($expected, $user);
-    }
-
-    public function testFindOneByUserNameCount()
-    {
-        $user = $this->finder->findOneByUserName('UnitTestUser');
-        $this->assertEquals(1, count($user));
-    }
-
-    public function testFindOneByName()
-    {
-        $expected = new User('UnitTestUser', 'password', null,1);
-        $user = $this->finder->findOneByUserName('UnitTestUser');
+        $expected = new User('UnitTestUser', 'password', null, 1);
+        $user = $this->finder->findOneByLogin('UnitTestUser');
         $this->assertEquals($expected, $user);
     }
 }
