@@ -44,7 +44,7 @@ if ($statuses!=null) {
 		</form>
 		<?php 
         } ?>
-		<p><?php echo $s->getUser(); ?></p>
+		<p><?php echo $s->getUser()->getLogin(); ?></p>
 		<p><?php echo $s->getDate()->format('Y-m-d').' at '.$s->getDate()->format('H:i:s'); ?></p>
 		<p><?php echo $s->getContent(); ?></p>
 		<p><a href="/statuses/<?php echo $s->getId(); ?>">See this status</a></p>

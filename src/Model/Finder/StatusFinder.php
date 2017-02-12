@@ -5,6 +5,7 @@ namespace Model\Finder;
 use Exception\HttpException;
 use Dal\Connection;
 use Model\Status;
+use Model\User;
 use \PDO;
 
 class StatusFinder implements FinderInterface
@@ -58,9 +59,9 @@ class StatusFinder implements FinderInterface
         $statuses = [];
         for ($i = 0; $i < count($result); $i++) {
             if ($result[$i]['LOGIN']) {
-                $statuses[] = new Status($result[$i]['LOGIN'], $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
+                $statuses[] = new Status(new User($result[$i]['LOGIN']), $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
             } else {
-                $statuses[] = new Status('Anonymous', $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
+                $statuses[] = new Status(new User('Anonymous'), $result[$i]['DESCRIPTION'], new \DateTime($result[$i]['CREATED_AT']), $result[$i]['ID']);
             }
         }
 
@@ -74,18 +75,26 @@ class StatusFinder implements FinderInterface
 
     public function findOneById($id)
     {
-        $query = 'SELECT * FROM STATUS WHERE id = :id';
+        $query = '
+            SELECT s.ID, s.DESCRIPTION, s.CREATED_AT, u.LOGIN 
+            FROM STATUS s 
+            LEFT JOIN USER u 
+            ON s.USER_ID = u.ID
+            WHERE s.id = :id
+        ';
 
         $stmt = $this->connection->prepare($query);
         $stmt->execute(['id' => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $status = new Status($result['NAME'], $result['DESCRIPTION'], new \DateTime($result['CREATED_AT']), $result['ID']);
+        if($result === false) {
+            return null;
+        }
 
-        //var_dump($result);
+        if ($result['LOGIN']) {
+            return $status = new Status(new User($result['LOGIN']), $result['DESCRIPTION'], new \DateTime($result['CREATED_AT']), $result['ID']);
+        }
 
-        //todo create instances of status
-        //throw new HttpException(404, 'Status not found');
-        return $status;
+        return $status = new Status(new User('Anonymous'), $result['DESCRIPTION'], new \DateTime($result['CREATED_AT']), $result['ID']);
     }
 }

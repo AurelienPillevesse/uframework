@@ -13,7 +13,7 @@ $app = new \App(new View\TemplateEngine(
     __DIR__ . '/templates/'
     ), $debug);
 
-$dsn = 'mysql:host=127.0.0.1;dbname=uframework;port=32768' ;
+$dsn = 'mysql:host=127.0.0.1;dbname=uframework;port=32769' ;
 $user = 'uframework' ;
 $password = 'p4ssw0rd';
 
@@ -76,9 +76,13 @@ $app->post('/statuses', function (Request $request) use ($app, $statusMapperMysq
 $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $statusFinderMysql) {
     $status = $statusFinderMysql->findOneById($id);
 
-    if ($status !== null) {
-        throw new HttpException(404, "Status not found");
-    }
+    try {
+	    if ($status === null) {
+	        throw new HttpException(404, "Status not found");
+	    }
+	} catch(HttpException $e) {
+		return $app->render('errorStatus.php', array('message' => $e->getMessage()));
+	}
 
     if ($request->guessBestFormat() == 'application/json') {
         return JsonResponse(json_encode($status));

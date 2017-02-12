@@ -10,9 +10,9 @@ if ($status) {
 	<?php 
     }
 }
-echo $status->getId().'<br>';
-echo $status->getUser().'<br>';
-echo $status->getContent().'<br>';
-echo '<br>';
+?>
+<p><?php echo $status->getUser()->getLogin(); ?></p>
+<p><?php echo $status->getDate()->format('Y-m-d').' at '.$status->getDate()->format('H:i:s'); ?></p>
+<p><?php echo $status->getContent(); ?></p>
 
-include 'footer.php';
+<?php include 'footer.php';
