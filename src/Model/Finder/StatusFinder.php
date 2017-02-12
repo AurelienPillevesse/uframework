@@ -25,7 +25,12 @@ class StatusFinder implements FinderInterface
             var_dump($filter['order']);
         }*/
 
-        $query = 'SELECT s.ID, s.DESCRIPTION, s.CREATED_AT, u.LOGIN FROM STATUS s LEFT JOIN USER u ON s.USER_ID = u.ID';
+        $query = '
+            SELECT s.ID, s.DESCRIPTION, s.CREATED_AT, u.LOGIN 
+            FROM STATUS s 
+            LEFT JOIN USER u 
+            ON s.USER_ID = u.ID
+        ';
 
         if (isset($filter['orderBy']) && $filter['orderBy'] === 'createdAt') {
             $query .= ' ORDER BY CREATED_AT';
