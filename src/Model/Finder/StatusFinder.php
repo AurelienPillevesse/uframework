@@ -19,13 +19,6 @@ class StatusFinder implements FinderInterface
 
     public function findAll($filter = null)
     {
-        //$query = 'SELECT * FROM STATUS';
-
-        //var_dump($filter);
-        /*for ($i = 0; $i < count($filter); $i++) {
-            var_dump($filter['order']);
-        }*/
-
         $query = '
             SELECT s.ID, s.DESCRIPTION, s.CREATED_AT, u.LOGIN 
             FROM STATUS s 
@@ -65,11 +58,6 @@ class StatusFinder implements FinderInterface
             }
         }
 
-        //var_dump($result);
-        //if(!empty($results)) {
-            //todo
-        //}
-
         return $statuses;
     }
 
@@ -87,7 +75,7 @@ class StatusFinder implements FinderInterface
         $stmt->execute(['id' => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($result === false) {
+        if ($result === false) {
             return null;
         }
 

@@ -8,13 +8,6 @@ class InMemoryFinder implements FinderInterface
 {
     private $data = ['yo', 'yoo', 'yooo'];
 
-    /*public function __construct() {
-        $data[] = "1er status";
-        $data[] = "2eme status";
-        $data[] = "3eme status";
-        $data[] = "4eme status";
-    }*/
-
     /**
      * Returns all elements.
      *

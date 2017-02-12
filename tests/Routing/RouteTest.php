@@ -2,7 +2,7 @@
 
 namespace Routing;
 
-class RouteTest extends \TestCase
+class RouteTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForMatch

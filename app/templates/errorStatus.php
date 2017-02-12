@@ -1,7 +1,9 @@
 <?php include 'header.php';
 
-if ($message) { ?>
+if ($message) {
+    ?>
 <div style="color: red; font-size: 24px;"><?= $message ?></div>
-<?php } 
+<?php 
+}
 
 include 'footer.php';

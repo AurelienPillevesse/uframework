@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace Model\Finder;
 
 use Exception\HttpException;
 

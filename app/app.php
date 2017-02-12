@@ -77,12 +77,12 @@ $app->get('/statuses/(\d+)', function (Request $request, $id) use ($app, $status
     $status = $statusFinderMysql->findOneById($id);
 
     try {
-	    if ($status === null) {
-	        throw new HttpException(404, "Status not found");
-	    }
-	} catch(HttpException $e) {
-		return $app->render('errorStatus.php', array('message' => $e->getMessage()));
-	}
+        if ($status === null) {
+            throw new HttpException(404, "Status not found");
+        }
+    } catch (HttpException $e) {
+        return $app->render('errorStatus.php', array('message' => $e->getMessage()));
+    }
 
     if ($request->guessBestFormat() == 'application/json') {
         return JsonResponse(json_encode($status));

@@ -1,6 +1,6 @@
 <?php
 
-class AppTest extends TestCase
+class AppTest extends \PHPUnit\Framework\TestCase
 {
     private $app;
 
