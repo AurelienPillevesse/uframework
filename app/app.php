@@ -13,7 +13,7 @@ $app = new \App(new View\TemplateEngine(
     __DIR__ . '/templates/'
     ), $debug);
 
-$dsn = 'mysql:host=127.0.0.1;dbname=uframework;port=32769' ;
+$dsn = 'mysql:host=127.0.0.1;dbname=uframework;port=32768' ;
 $user = 'uframework' ;
 $password = 'p4ssw0rd';
 

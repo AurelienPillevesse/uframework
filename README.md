@@ -42,3 +42,4 @@ In the example below, the port is 32768 but take care to write the port is writt
 
     $ mysql uframework -h127.0.0.1 -P32768 -uuframework -pp4ssw0rd < app/config/schemaMYSQL.sql
 
+If it's not the port 32768, you have to change it at line 16 of the app/app.php file.
