@@ -3,6 +3,7 @@
 use Model\Finder\StatusFinder;
 use Dal\Connection;
 use Model\Status;
+use Model\User;
 
 class StatusFinderTest extends TestCase
 {
