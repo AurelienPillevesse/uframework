@@ -24,7 +24,7 @@ class UserFinder
         $stmt->execute(['login' => $login]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if(!empty($result)) {
+        if (!empty($result)) {
             return new User($result['LOGIN'], null, $result['HASH'], $result['ID']);
         }
         

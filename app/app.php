@@ -107,15 +107,15 @@ $app->post('/login', function (Request $request) use ($app, $userFinderMysql) {
     $user = $userFinderMysql->findOneByLogin($login);
 
     try {
-	    if ($user === null) {
-	        throw new HttpException(403, "Could not find user's login");
-	    }
-	    if (!$user->verifyPassword($password)) {
-	        throw new HttpException(403, "Wrong password for this user");
-	    }
-	} catch (HttpException $e) {
-		return $app->render('login.php', array('message' => $e->getMessage()));
-	}
+        if ($user === null) {
+            throw new HttpException(403, "Could not find user's login");
+        }
+        if (!$user->verifyPassword($password)) {
+            throw new HttpException(403, "Wrong password for this user");
+        }
+    } catch (HttpException $e) {
+        return $app->render('login.php', array('message' => $e->getMessage()));
+    }
 
     $_SESSION['id'] = $user->getId();
     $_SESSION['login'] = $user->getLogin();
@@ -138,12 +138,12 @@ $app->post('/register', function (Request $request) use ($app, $userMapperMysql,
     $user = $userFinderMysql->findOneByLogin($login);
 
     try {
-	    if ($user !== null) {
-	        throw new HttpException(403, "Login already exists");
-	    }
-	} catch (HttpException $e) {
-		return $app->render('register.php', array('message' => $e->getMessage()));
-	}
+        if ($user !== null) {
+            throw new HttpException(403, "Login already exists");
+        }
+    } catch (HttpException $e) {
+        return $app->render('register.php', array('message' => $e->getMessage()));
+    }
 
     $userMapperMysql->persist(new \Model\User($login, $password));
 

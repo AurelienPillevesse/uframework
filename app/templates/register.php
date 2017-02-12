@@ -2,7 +2,9 @@
 
 <h2>S'enregistrer maintenant</h2>
 
-<?php if ($message) ?>
+<?php if ($message) {
+    ;
+} ?>
 <div style="color: red; font-size: 24px;"><?= $message ?></div>
 
 <form action="/register" method="post">
