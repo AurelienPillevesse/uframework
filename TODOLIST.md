@@ -8,5 +8,6 @@ SELECT * FROM User u LEFT JOIN Status s ON s.user_id = u.id;
  - [x]  Guess best format
  - [x] Add anonymously
  - [x] Add search specific
- - [ ] Trait?
+ - [ ] Trait
  - [x] PSR verifications
+ - [ ] Pseudo déjà existant
